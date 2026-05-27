@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f2ec" id="themeColorMeta" />
+    <title>Dice Battle</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      const dark = localStorage.getItem("theme") === "dark";
+      if (dark) document.documentElement.classList.add("dark");
+      document.documentElement.classList.add("no-transition");
+      window.addEventListener("load", () => {
+        setTimeout(
+          () => document.documentElement.classList.remove("no-transition"),
+          100,
+        );
+      });
+    </script>
+  </head>
+
+  <body>
+    <!-- ===================================================
+         MAIN MENU SCREEN
+         =================================================== -->
+    <div class="screen" id="menuScreen">
+      <!-- LEFT PANEL — editorial title -->
+      <aside class="menu-left">
+        <div class="menu-left-inner">
+          <span class="eyebrow">Done By Ali Farhat</span>
+          <h1 class="logo-title">Dice<br /><em>Battle</em></h1>
+          <p class="menu-left-desc">
+            A two or three‑player game of chance. Roll, accumulate, and
+            dominate.
+          </p>
+          <div class="die-large" aria-hidden="true">⚄</div>
+        </div>
+      </aside>
+
+      <!-- RIGHT PANEL — options -->
+      <div class="menu-right">
+        <div class="menu-right-inner">
+          <!-- Top row: Players label + theme toggle -->
+          <div class="menu-top-row">
+            <p class="section-label">Players</p>
+            <button class="theme-toggle themeToggle" title="Toggle theme">
+              <span class="theme-icon">☀</span>
+            </button>
+          </div>
+
+          <!-- Player count -->
+          <div class="option-group" id="playerOptions">
+            <button class="opt-btn active" data-players="2">2 Players</button>
+            <button class="opt-btn" data-players="3">3 Players</button>
+          </div>
+
+          <!-- Match mode -->
+          <p class="section-label">Match Mode</p>
+          <div class="option-group" id="modeOptions">
+            <button class="opt-btn active" data-mode="3">Best of 3</button>
+            <button class="opt-btn" data-mode="5">Best of 5</button>
+          </div>
+
+          <!-- Divider + names section (revealed by Continue) -->
+          <hr class="menu-rule hidden" id="rule1" />
+          <p class="section-label hidden" id="playerLabel">Player Names</p>
+
+          <div class="name-input-group hidden" id="nameOptions">
+            <div class="input-wrapper">
+              <span class="input-prefix">P1</span>
+              <input
+                type="text"
+                class="player-input"
+                placeholder="Enter Name"
+                id="p1Name"
+                autocomplete="off"
+                maxlength="15"
+              />
+            </div>
+            <div class="input-wrapper">
+              <span class="input-prefix">P2</span>
+              <input
+                type="text"
+                class="player-input"
+                placeholder="Enter Name"
+                id="p2Name"
+                autocomplete="off"
+                maxlength="15"
+              />
+            </div>
+            <!-- P3 shown/hidden via JS based on player count -->
+            <div class="input-wrapper hidden" id="inputP3">
+              <span class="input-prefix">P3</span>
+              <input
+                type="text"
+                class="player-input"
+                placeholder="Enter Name"
+                id="p3Name"
+                autocomplete="off"
+                maxlength="15"
+              />
+            </div>
+          </div>
+
+          <hr class="menu-rule" />
+          <p class="rule-note">
+            First player to reach <strong>25 pts</strong> wins the round.
+          </p>
+
+          <button class="btn-start" id="continueBtn">Continue</button>
+          <button class="btn-start hidden" id="startBtn">Start Game</button>
+        </div>
+      </div>
+    </div>
+    <!-- /menuScreen -->
+
+    <!-- ===================================================
+         GAME SCREEN
+         =================================================== -->
+    <div class="screen hidden" id="gameScreen">
+      <!-- STICKY HEADER -->
+      <header class="game-header">
+        <div class="game-title-wrap">
+          <span class="game-wordmark">Dice <em>Battle</em></span>
+          <span class="round-badge">
+            Round <span id="roundDisplay">1</span>
+            <span id="bestOf">—</span>
+          </span>
+        </div>
+        <div class="header-actions">
+          <button class="theme-toggle themeToggle" title="Toggle theme">
+            <span class="theme-icon">☀</span>
+          </button>
+          <button class="btn-icon" id="restartBtn" title="Restart">
+            &#8635; Restart
+          </button>
+        </div>
+      </header>
+
+      <!-- ROUND WIN TRACKER -->
+      <div class="round-tracker" id="roundTracker">
+        <div class="tracker-player p1" id="trackerP1">
+          <span class="tracker-name" id="trackerName1">Player 1</span>
+          <div class="tracker-pips" id="trackerPips1">
+            <span class="pip" data-pip="1"></span>
+            <span class="pip" data-pip="2"></span>
+            <span class="pip hidden" data-pip="3"></span>
+          </div>
+        </div>
+
+        <div class="tracker-divider"></div>
+
+        <div class="tracker-player p2" id="trackerP2">
+          <span class="tracker-name" id="trackerName2">Player 2</span>
+          <div class="tracker-pips" id="trackerPips2">
+            <span class="pip" data-pip="1"></span>
+            <span class="pip" data-pip="2"></span>
+            <span class="pip hidden" data-pip="3"></span>
+          </div>
+        </div>
+
+        <div class="tracker-divider"></div>
+
+        <!-- Hidden in 2-player mode -->
+        <div class="tracker-player p3 hidden player3Array" id="trackerP3">
+          <span class="tracker-name" id="trackerName3">Player 3</span>
+          <div class="tracker-pips" id="trackerPips3">
+            <span class="pip" data-pip="1"></span>
+            <span class="pip" data-pip="2"></span>
+            <span class="pip hidden" data-pip="3"></span>
+          </div>
+        </div>
+      </div>
+      <!-- /roundTracker -->
+
+      <!-- PLAYER CARDS -->
+      <div class="players-area" id="playersArea">
+        <!-- PLAYER 1 -->
+        <div class="player-card p1 is-turn" id="card1">
+          <!-- Turn badge: shown only when card has .is-turn -->
+          <span class="turn-badge">Your Turn</span>
+
+          <span class="player-label">Player</span>
+          <span class="player-name" id="pName1">Player 1</span>
+
+          <!-- Dice: 9 dots in a 3×3 grid. JS adds .on to the active ones. -->
+          <div class="dice-face" id="dice1" data-value="?">
+            <span class="dot d1"></span>
+            <span class="dot d2"></span>
+            <span class="dot d3"></span>
+            <span class="dot d4"></span>
+            <span class="dot d5"></span>
+            <span class="dot d6"></span>
+            <span class="dot d7"></span>
+            <span class="dot d8"></span>
+            <span class="dot d9"></span>
+          </div>
+
+          <div class="score-block">
+            <div class="score-value" id="score1">0</div>
+            <div class="score-label">pts</div>
+          </div>
+          <div class="score-bar-wrap">
+            <div class="score-bar" id="bar1"></div>
+          </div>
+          <div class="last-roll" id="lastRoll1">No roll yet</div>
+        </div>
+        <!-- /p1 -->
+
+        <!-- PLAYER 2 -->
+        <div class="player-card p2" id="card2">
+          <span class="turn-badge">Your Turn</span>
+
+          <span class="player-label">Player</span>
+          <span class="player-name" id="pName2">Player 2</span>
+
+          <div class="dice-face" id="dice2" data-value="?">
+            <span class="dot d1"></span>
+            <span class="dot d2"></span>
+            <span class="dot d3"></span>
+            <span class="dot d4"></span>
+            <span class="dot d5"></span>
+            <span class="dot d6"></span>
+            <span class="dot d7"></span>
+            <span class="dot d8"></span>
+            <span class="dot d9"></span>
+          </div>
+
+          <div class="score-block">
+            <div class="score-value" id="score2">0</div>
+            <div class="score-label">pts</div>
+          </div>
+          <div class="score-bar-wrap">
+            <div class="score-bar" id="bar2"></div>
+          </div>
+          <div class="last-roll" id="lastRoll2">No roll yet</div>
+        </div>
+        <!-- /p2 -->
+
+        <!-- PLAYER 3 — hidden in 2-player mode -->
+        <div class="player-card p3 hidden player3Array" id="card3">
+          <span class="turn-badge">Your Turn</span>
+
+          <span class="player-label">Player</span>
+          <span class="player-name" id="pName3">Player 3</span>
+
+          <div class="dice-face" id="dice3" data-value="?">
+            <span class="dot d1"></span>
+            <span class="dot d2"></span>
+            <span class="dot d3"></span>
+            <span class="dot d4"></span>
+            <span class="dot d5"></span>
+            <span class="dot d6"></span>
+            <span class="dot d7"></span>
+            <span class="dot d8"></span>
+            <span class="dot d9"></span>
+          </div>
+
+          <div class="score-block">
+            <div class="score-value" id="score3">0</div>
+            <div class="score-label">pts</div>
+          </div>
+          <div class="score-bar-wrap">
+            <div class="score-bar" id="bar3"></div>
+          </div>
+          <div class="last-roll" id="lastRoll3">No roll yet</div>
+        </div>
+        <!-- /p3 -->
+      </div>
+      <!-- /playersArea -->
+
+      <!-- ROLL ZONE -->
+      <div class="roll-zone">
+        <button class="btn-roll" id="rollBtn">Roll Dice</button>
+        <p class="roll-hint">
+          First to <strong>25 points</strong> wins the round
+        </p>
+      </div>
+
+      <!-- ROUND WINNER OVERLAY -->
+      <div class="overlay hidden" id="roundBanner">
+        <div class="overlay-card">
+          <p class="overlay-eyebrow">Round Winner</p>
+          <h3 class="banner-name" id="bannerName">Player 1</h3>
+          <button class="btn-start" id="nextRoundBtn">Next Round &rarr;</button>
+        </div>
+      </div>
+    </div>
+    <!-- /gameScreen -->
+
+    <!-- ===================================================
+         WINNER SCREEN
+         =================================================== -->
+    <div class="screen hidden" id="winnerScreen">
+      <div class="winner-layout">
+        <!-- Left: trophy + name -->
+        <div class="winner-left">
+          <span class="winner-trophy" aria-hidden="true">&#127942;</span>
+          <p class="winner-label">Match Winner</p>
+          <h2 class="winner-name" id="winnerName">Player 1</h2>
+        </div>
+
+        <!-- Right: results table + play again -->
+        <div class="winner-right">
+          <p class="section-label">Final Scores</p>
+          <table class="results-table" id="resultsTable">
+            <thead>
+              <tr>
+                <th>Player</th>
+                <th style="text-align: right">Rounds Won</th>
+              </tr>
+            </thead>
+            <tbody id="resultsBody">
+              <!-- JS injects <tr> rows here -->
+            </tbody>
+          </table>
+          <button class="btn-start" id="playAgainBtn">Play Again</button>
+        </div>
+      </div>
+    </div>
+    <!-- /winnerScreen -->
+
+    <!-- Scripts -->
+    <script type="module" src="JsCodes/options.js"></script>
+    <script type="module" src="JsCodes/main.js"></script>
+    <script type="module" src="JsCodes/design.js"></script>
+    <script type="module" src="JsCodes/pages.js"></script>
+    <script type="module" src="JsCodes/theme.js"></script>
+    <script type="module" src="JsCodes/sounds.js"></script>
+  </body>
+</html>
