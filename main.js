@@ -1,5 +1,5 @@
-import {optionFunctions} from './options.js'; //? getModeSelected() 3 or 5  getPlayerNbr() 2 or 3
-import { designFunctions } from './design.js';
+import {optionFunctions} from './JsCodes/options.js'; //? getModeSelected() 3 or 5  getPlayerNbr() 2 or 3
+import { designFunctions } from './JsCodes/design.js';
 
 //* ################## Variables #####################
 let players_Score = []; //? each player score in each round
