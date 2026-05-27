@@ -1,98 +1,65 @@
-/* =====================================================
-   DICE BATTLE — style.css
-   Aesthetic: Editorial / Split-layout / Typographic
-   Fonts: DM Serif Display (headings) · DM Sans (UI)
-   ===================================================== */
-
-/* ---- DESIGN TOKENS --------------------------------- */
 :root {
     --bg: #f5f2ec;
     --surface: #ffffff;
     --surface-2: #f0ece4;
-
     --ink: #1a1612;
     --ink-2: #4a4440;
     --ink-3: #9a9088;
     --ink-4: #cbc5bc;
-
     --accent: #c8622a;
     --accent-hover: #b05520;
     --accent-soft: rgba(200, 98, 42, 0.10);
-
     --p1: #c82a2a;
     --p2: #006aff;
     --p3: #2db56e;
-
     --p1-soft: rgba(200, 42, 42, 0.08);
     --p2-soft: rgba(0, 106, 255, 0.08);
     --p3-soft: rgba(45, 181, 110, 0.08);
-
     --border: #ddd8d0;
     --border-dark: #c8c0b4;
-
     --radius: 8px;
     --radius-lg: 16px;
-
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
     --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
     --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.10), 0 2px 8px rgba(0, 0, 0, 0.06);
-
     --transition: 0.18s ease;
 }
 
-/* ---- DARK MODE ------------------------------------- */
-/*
-   Palette logic:
-   --bg          true near-black slate (not brown/warm) — #0d1117 GitHub-dark inspired
-   --surface     one step lighter slate card — #161b22
-   --surface-2   slightly lighter still for nested elements — #1e2430
-   --ink         pure crisp white for headings / big numbers — #f0f6fc
-   --ink-2       slightly dimmed for body text — #c9d1d9
-   --ink-3       muted for labels, hints — #6e7681
-   --ink-4       very muted for placeholder, decorative — #30363d
-   --accent      bright coral-orange — clearly visible on dark, keeps brand
-   --p1          vivid red — still distinct from accent
-   --p2          electric blue — max contrast, clearly readable
-   --p3          bright green — clear, not neon
-   Borders are subtle cool-slate lines, not warm brown.
-*/
 html.dark {
     --bg: #0d1117;
     --surface: #161b22;
     --surface-2: #1e2430;
-
     --ink: #f0f6fc;
     --ink-2: #c9d1d9;
     --ink-3: #6e7681;
     --ink-4: rgba(255, 255, 255, 0.441);
-
     --accent: #ff7043;
     --accent-hover: #ff8a65;
     --accent-soft: rgba(255, 112, 67, 0.15);
-
     --p1: #ff5370;
     --p2: #4da6ff;
     --p3: #3ddc84;
-
     --p1-soft: rgba(255, 83, 112, 0.14);
     --p2-soft: rgba(77, 166, 255, 0.14);
     --p3-soft: rgba(61, 220, 132, 0.14);
-
     --border: #21262d;
     --border-dark: #30363d;
-
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4);
     --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.7), 0 1px 3px rgba(0, 0, 0, 0.4);
     --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.8), 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
-/* ---- BASE ------------------------------------------ */
 *,
 *::before,
 *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+html {
+    font-size: clamp(14px, 0.9vw, 16px);
+    overflow-x: hidden;
 }
 
 html,
@@ -106,23 +73,49 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* ---- NO-TRANSITION HELPER (used on page load) ------ */
+body {
+    overflow-x: hidden;
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
 .no-transition,
 .no-transition * {
     transition: none !important;
     animation: none !important;
 }
 
-/* ---- HIDDEN ---------------------------------------- */
-/* Hard hide — no animation. Screens and specific animated
-   elements override this with their own transitions below. */
 .hidden {
     display: none !important;
 }
 
-/* =====================================================
-   SCREENS
-   ===================================================== */
+img,
+svg,
+canvas,
+video {
+    max-width: 100%;
+    height: auto;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button {
+    touch-action: manipulation;
+}
+
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
+body,
+.screen,
+.menu-right,
+.winner-right {
+    -webkit-overflow-scrolling: touch;
+}
 
 .screen {
     position: fixed;
@@ -137,6 +130,7 @@ body {
         transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
         visibility 0.6s allow-discrete,
         display 0.6s allow-discrete;
+    max-width: 100%;
 }
 
 .screen.hidden {
@@ -153,11 +147,6 @@ body {
         transform: translateY(10px);
     }
 }
-
-/* =====================================================
-   MENU — ANIMATED ELEMENTS
-   Fade+slide in when .hidden is removed
-   ===================================================== */
 
 .menu-rule,
 .rule-note,
@@ -194,10 +183,6 @@ body {
     }
 }
 
-/* =====================================================
-   THEME TOGGLE
-   ===================================================== */
-
 .theme-toggle {
     width: 36px;
     height: 36px;
@@ -231,10 +216,6 @@ body {
     justify-content: space-between;
 }
 
-/* =====================================================
-   MAIN MENU — SPLIT LAYOUT
-   ===================================================== */
-
 #menuScreen {
     flex-direction: row;
     align-items: stretch;
@@ -242,9 +223,9 @@ body {
     overflow-y: auto;
 }
 
-/* LEFT PANEL ----------------------------------------- */
 .menu-left {
-    width: 45%;
+    flex: 1 1 42%;
+    min-width: 320px;
     background: var(--ink);
     display: flex;
     align-items: center;
@@ -256,7 +237,6 @@ body {
     transition: background 0.35s;
 }
 
-/* Dot-grid texture */
 .menu-left::before {
     content: '';
     position: absolute;
@@ -266,7 +246,6 @@ body {
     pointer-events: none;
 }
 
-/* Accent rule on the right edge */
 .menu-left::after {
     content: '';
     position: absolute;
@@ -302,7 +281,7 @@ html.dark .menu-left {
 
 .logo-title {
     font-family: 'DM Serif Display', Georgia, serif;
-    font-size: clamp(56px, 7vw, 88px);
+    font-size: clamp(52px, 7vw, 88px);
     line-height: 0.95;
     color: #ffffff;
     font-weight: 400;
@@ -328,7 +307,6 @@ html.dark .menu-left-desc {
     color: var(--ink-3);
 }
 
-/* Decorative large die emoji — purely visual */
 .die-large {
     font-size: 80px;
     line-height: 1;
@@ -345,9 +323,9 @@ html.dark .die-large {
     color: rgba(255, 255, 255, 0.06);
 }
 
-/* RIGHT PANEL ---------------------------------------- */
 .menu-right {
-    flex: 1;
+    flex: 1 1 58%;
+    min-width: 320px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -435,7 +413,6 @@ html.dark .die-large {
     font-weight: 600;
     cursor: pointer;
     letter-spacing: 0.3px;
-    /* Only animate opacity+transform — NOT height/padding, which cause layout jump */
     transition:
         background var(--transition),
         transform var(--transition),
@@ -443,7 +420,6 @@ html.dark .die-large {
     margin-top: 4px;
 }
 
-/* When hidden: snap to invisible AND collapse so the gap disappears */
 .btn-start.hidden {
     opacity: 0;
     transform: translateY(6px);
@@ -509,10 +485,6 @@ html.dark .die-large {
     box-shadow: 0 0 0 4px var(--accent-soft);
 }
 
-/* =====================================================
-   GAME SCREEN
-   ===================================================== */
-
 #gameScreen {
     flex-direction: column;
     align-items: stretch;
@@ -532,6 +504,15 @@ html.dark .die-large {
     position: sticky;
     top: 0;
     z-index: 10;
+    max-width: 100%;
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+}
+
+html.dark .game-header {
+    background: var(--surface);
+    border-bottom-color: var(--border-dark);
+    box-shadow: 0 1px 0 var(--border-dark), var(--shadow-sm);
 }
 
 .game-title-wrap {
@@ -588,10 +569,6 @@ html.dark .die-large {
     color: var(--accent);
 }
 
-/* =====================================================
-   ROUND TRACKER — original horizontal layout
-   ===================================================== */
-
 .round-tracker {
     display: flex;
     align-items: center;
@@ -601,15 +578,24 @@ html.dark .die-large {
     background: var(--surface);
     border-bottom: 1px solid var(--border);
     overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    max-width: 100%;
 }
 
-/* Divider element between players — keep in HTML but style simply */
+.round-tracker::-webkit-scrollbar {
+    display: none;
+}
+
+html.dark .round-tracker {
+    background: var(--surface);
+    border-bottom-color: var(--border-dark);
+}
+
 .tracker-divider {
     display: none;
-    /* not needed in horizontal layout */
 }
 
-/* One row per player: name left, pips right */
 .tracker-player {
     display: flex;
     flex-direction: row;
@@ -623,6 +609,7 @@ html.dark .die-large {
     border-bottom: none;
     border-left: none;
     min-width: 0;
+    flex-shrink: 0;
 }
 
 .tracker-player:nth-last-child(3) {
@@ -634,6 +621,14 @@ html.dark .die-large {
     border-left: 1px solid var(--border);
 }
 
+html.dark .tracker-player {
+    border-right-color: var(--border-dark);
+}
+
+html.dark .tracker-player:last-of-type {
+    border-right: none;
+}
+
 .tracker-name {
     font-family: 'DM Sans', sans-serif;
     font-size: 12px;
@@ -641,19 +636,6 @@ html.dark .die-large {
     letter-spacing: 0.5px;
     text-transform: uppercase;
     white-space: nowrap;
-    color: var(--ink-3);
-}
-
-/* Player name color stays neutral — color comes from pip fill */
-.tracker-player.p1 .tracker-name {
-    color: var(--ink-3);
-}
-
-.tracker-player.p2 .tracker-name {
-    color: var(--ink-3);
-}
-
-.tracker-player.p3 .tracker-name {
     color: var(--ink-3);
 }
 
@@ -676,7 +658,6 @@ html.dark .pip {
     border-color: var(--border-dark);
 }
 
-/* Filled pip per player color */
 .tracker-player.p1 .pip.won {
     background: var(--p1);
     border-color: var(--p1);
@@ -695,10 +676,6 @@ html.dark .pip {
     transform: scale(1.15);
 }
 
-/* =====================================================
-   PLAYER CARDS
-   ===================================================== */
-
 .players-area {
     display: flex;
     gap: 20px;
@@ -706,14 +683,16 @@ html.dark .pip {
     justify-content: center;
     flex-wrap: wrap;
     flex: 1;
+    width: 100%;
+    align-items: stretch;
+    max-width: 100%;
 }
 
-/* Base card — transition only non-transform properties here.
-   Transform is handled by .is-turn animation to avoid conflicts. */
 .player-card {
     flex: 1;
     min-width: 210px;
     max-width: 260px;
+    width: 100%;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
@@ -725,6 +704,9 @@ html.dark .pip {
     position: relative;
     overflow: hidden;
     box-shadow: var(--shadow-sm);
+    will-change: transform, opacity, filter;
+    transform: translateZ(0);
+    backface-visibility: hidden;
     transition:
         opacity 0.4s cubic-bezier(0.2, 0, 0, 1),
         filter 0.4s cubic-bezier(0.2, 0, 0, 1),
@@ -733,7 +715,6 @@ html.dark .pip {
         background 0.35s ease;
 }
 
-/* Colored top bar per player */
 .player-card::before {
     content: '';
     position: absolute;
@@ -745,7 +726,6 @@ html.dark .pip {
     transition: background 0.3s;
 }
 
-/* Tinted background wash per player */
 .player-card::after {
     content: '';
     position: absolute;
@@ -780,32 +760,21 @@ html.dark .pip {
     background: var(--p3-soft);
 }
 
-/* Dark mode: always show the tint wash for card depth */
 html.dark .player-card::after {
     opacity: 1;
 }
 
-/* Dark mode: dice face gets cool slate gradient */
 html.dark .dice-face {
     background: linear-gradient(135deg, var(--surface-2) 0%, var(--surface) 100%);
     box-shadow: var(--shadow-sm), inset 0 1px 2px rgba(255, 255, 255, 0.04);
     border-color: var(--border-dark);
 }
 
-/* Card content sits above the ::after wash */
 .player-card>* {
     position: relative;
     z-index: 1;
 }
 
-/* ---- TURN HIGHLIGHT --------------------------------- */
-
-/* All cards start neutral */
-.player-card {
-    will-change: transform, opacity, filter;
-}
-
-/* Dim + blur inactive cards — smooth 400ms crossfade */
 .players-area:has(.player-card.is-turn) .player-card:not(.is-turn) {
     opacity: 0.32;
     filter: blur(1.5px) saturate(0.6);
@@ -818,8 +787,6 @@ html.dark .players-area:has(.player-card.is-turn) .player-card:not(.is-turn) {
     filter: blur(1.5px) saturate(0.3);
 }
 
-/* Entering: card slides in + lifts. The .entering class is added by JS
-   for one animation frame when a turn starts, then removed. */
 .player-card.is-turn {
     z-index: 10;
     box-shadow: var(--shadow-lg);
@@ -831,7 +798,6 @@ html.dark .player-card.is-turn {
     box-shadow: var(--shadow-lg), 0 0 0 1px rgba(240, 246, 252, 0.10);
 }
 
-/* Step 1: snap in from slightly below + scale up */
 @keyframes turnEnter {
     0% {
         transform: translateY(10px) scale(0.97);
@@ -849,7 +815,6 @@ html.dark .player-card.is-turn {
     }
 }
 
-/* Step 2: idle breathing after entry */
 @keyframes activePulse {
 
     0%,
@@ -862,42 +827,8 @@ html.dark .player-card.is-turn {
     }
 }
 
-@media (max-width: 700px) {
-    @keyframes turnEnter {
-        0% {
-            transform: translateY(6px) scale(0.97);
-            opacity: 0.5;
-        }
-
-        60% {
-            transform: translateY(-6px) scale(1.02);
-            opacity: 1;
-        }
-
-        100% {
-            transform: translateY(-4px) scale(1.01);
-            opacity: 1;
-        }
-    }
-
-    @keyframes activePulse {
-
-        0%,
-        100% {
-            transform: translateY(-4px) scale(1.01);
-        }
-
-        50% {
-            transform: translateY(-6px) scale(1.015);
-        }
-    }
-}
-
-/* ---- TURN BADGE — simple filled pill --------------- */
-
 .turn-badge {
     display: none;
-    /* hidden by default */
 }
 
 .player-card.is-turn .turn-badge {
@@ -937,13 +868,10 @@ html.dark .player-card.is-turn .turn-badge {
     }
 }
 
-/* Push content down so badge doesn't overlap player-label */
 .player-card.is-turn .player-label {
     margin-top: 22px;
     transition: margin-top 0.3s ease;
 }
-
-/* ---- CARD TEXT ------------------------------------- */
 
 .player-label {
     font-size: 10px;
@@ -955,7 +883,7 @@ html.dark .player-card.is-turn .turn-badge {
 
 .player-name {
     font-family: 'DM Serif Display', serif;
-    font-size: 24px;
+    font-size: clamp(20px, 2.5vw, 28px);
     line-height: 1;
 }
 
@@ -971,10 +899,6 @@ html.dark .player-card.is-turn .turn-badge {
     color: var(--p3);
 }
 
-/* =====================================================
-   DICE FACE
-   ===================================================== */
-
 .dice-face {
     width: 90px;
     height: 90px;
@@ -989,15 +913,9 @@ html.dark .player-card.is-turn .turn-badge {
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
     user-select: none;
     box-shadow: var(--shadow-sm), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
-
-
-
-/* ---- DOT POSITIONS --------------------------------- */
-/* Grid layout (col / row):
-   d1: 1/1  d2: 2/1  d3: 3/1
-   d4: 1/2  d5: 2/2  d6: 3/2
-   d7: 1/3  d8: 2/3  d9: 3/3  */
 
 .dot {
     width: 100%;
@@ -1054,7 +972,6 @@ html.dark .player-card.is-turn .turn-badge {
     grid-row: 3;
 }
 
-/* Placeholder state — all dots faintly visible before first roll */
 .dice-face[data-value="?"] .dot {
     background: var(--border);
     opacity: 0.3;
@@ -1065,7 +982,6 @@ html.dark .dice-face[data-value="?"] .dot {
     opacity: 0.5;
 }
 
-/* Active dot color per player */
 .player-card.p1 .dot.on {
     background: var(--p1);
 }
@@ -1078,7 +994,6 @@ html.dark .dice-face[data-value="?"] .dot {
     background: var(--p3);
 }
 
-/* Dark mode: glow on active dots */
 html.dark .player-card.p1 .dot.on {
     background: var(--p1);
     box-shadow: 0 0 4px var(--p1);
@@ -1094,11 +1009,8 @@ html.dark .player-card.p3 .dot.on {
     box-shadow: 0 0 4px var(--p3);
 }
 
-/* ---- DICE ROLL ANIMATION --------------------------- */
-
 .dice-face.rolling {
     animation: diceRoll 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-    /* Freeze border during shake — prevents any color bleed mid-animation */
     transition: none;
 }
 
@@ -1124,9 +1036,6 @@ html.dark .player-card.p3 .dot.on {
     }
 }
 
-/* ---- POST-ROLL STATE ------------------------------- */
-
-/* Colored border once a value is shown */
 .player-card.p1 .dice-face.rolled {
     border-color: var(--p1);
 }
@@ -1154,7 +1063,6 @@ html.dark .player-card.p3 .dice-face.rolled {
     box-shadow: 0 0 0 1px var(--p3), var(--shadow-sm);
 }
 
-/* Dots pop in after roll */
 .dice-face.rolled .dot.on {
     animation: dotPop 0.25s cubic-bezier(0.2, 0, 0, 1.5) both;
 }
@@ -1192,10 +1100,6 @@ html.dark .dice-face.rolled .dot.on {
     }
 }
 
-/* =====================================================
-   SCORE
-   ===================================================== */
-
 .score-block {
     text-align: center;
     line-height: 1;
@@ -1203,13 +1107,12 @@ html.dark .dice-face.rolled .dot.on {
 
 .score-value {
     font-family: 'DM Serif Display', serif;
-    font-size: 54px;
+    font-size: clamp(38px, 5vw, 54px);
     color: var(--ink);
     line-height: 1;
     transition: color 0.25s, transform 0.15s;
 }
 
-/* Score bump animation — triggered by JS adding .score-pop */
 .score-value.score-pop {
     animation: scoreBump 0.3s cubic-bezier(0.2, 0, 0, 1.6) both;
 }
@@ -1236,8 +1139,6 @@ html.dark .dice-face.rolled .dot.on {
     color: var(--ink-4);
     margin-top: 2px;
 }
-
-/* ---- PROGRESS BAR ---------------------------------- */
 
 .score-bar-wrap {
     width: 100%;
@@ -1270,8 +1171,6 @@ html.dark .score-bar-wrap {
     background: var(--p3);
 }
 
-/* ---- LAST ROLL ------------------------------------- */
-
 .last-roll {
     font-size: 16px;
     color: var(--ink-3);
@@ -1296,10 +1195,6 @@ html.dark .score-bar-wrap {
     font-weight: 600;
 }
 
-/* =====================================================
-   ROLL ZONE
-   ===================================================== */
-
 .roll-zone {
     display: flex;
     flex-direction: column;
@@ -1308,6 +1203,14 @@ html.dark .score-bar-wrap {
     padding: 20px 32px 36px;
     border-top: 1px solid var(--border);
     background: var(--surface);
+    max-width: 100%;
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+}
+
+html.dark .roll-zone {
+    background: var(--surface);
+    border-top-color: var(--border-dark);
 }
 
 .btn-roll {
@@ -1348,10 +1251,6 @@ html.dark .score-bar-wrap {
     color: var(--ink-3);
 }
 
-/* =====================================================
-   OVERLAYS (Round winner banner)
-   ===================================================== */
-
 .overlay {
     position: fixed;
     inset: 0;
@@ -1362,8 +1261,6 @@ html.dark .score-bar-wrap {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* FIX: was referencing @keyframes fadeInOverlay which didn't exist.
-       Renamed to match the actual @keyframes name below. */
     animation: fadeIn 0.3s ease both;
 }
 
@@ -1389,16 +1286,18 @@ html.dark .overlay {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    padding: 52px 60px;
+    padding: 40px 24px;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 16px;
     box-shadow: var(--shadow-lg);
-    /* FIX: was defined twice. Kept only the better version here. */
     animation: cardPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-    min-width: 320px;
+    width: min(92vw, 420px);
+    min-width: unset;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 html.dark .overlay-card {
@@ -1429,14 +1328,10 @@ html.dark .overlay-card {
 
 .banner-name {
     font-family: 'DM Serif Display', serif;
-    font-size: 48px;
+    font-size: clamp(32px, 6vw, 48px);
     color: var(--accent);
     line-height: 1;
 }
-
-/* =====================================================
-   WINNER SCREEN
-   ===================================================== */
 
 #winnerScreen {
     flex-direction: row;
@@ -1451,6 +1346,8 @@ html.dark .overlay-card {
 }
 
 .winner-left {
+    flex: 1 1 42%;
+    min-width: 320px;
     width: 50%;
     background: var(--ink);
     display: flex;
@@ -1470,7 +1367,6 @@ html.dark .winner-left {
     border-right: 1px solid var(--border);
 }
 
-/* Accent rule on right edge — mirrors menu-left */
 .winner-left::after {
     content: '';
     position: absolute;
@@ -1513,7 +1409,7 @@ html.dark .winner-label {
 
 .winner-name {
     font-family: 'DM Serif Display', serif;
-    font-size: clamp(44px, 5vw, 72px);
+    font-size: clamp(40px, 6vw, 72px);
     font-weight: 400;
     color: var(--accent);
     text-align: center;
@@ -1521,16 +1417,17 @@ html.dark .winner-label {
 }
 
 .winner-right {
-    flex: 1;
+    flex: 1 1 58%;
+    min-width: 320px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 60px 48px;
     gap: 20px;
     background: var(--bg);
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
 }
-
-/* ---- RESULTS TABLE --------------------------------- */
 
 .results-table {
     width: 100%;
@@ -1577,117 +1474,411 @@ html.dark .winner-label {
     color: var(--accent);
 }
 
-/* =====================================================
-   DARK MODE — SURFACE DISTINCTION
-   Headers/trackers need a visible lift above the dark bg
-   ===================================================== */
-html.dark .game-header {
-    background: var(--surface);
-    border-bottom-color: var(--border-dark);
-    box-shadow: 0 1px 0 var(--border-dark), var(--shadow-sm);
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
 }
 
-html.dark .roll-zone {
-    background: var(--surface);
-    border-top-color: var(--border-dark);
-}
-
-html.dark .round-tracker {
-    background: var(--surface);
-    border-bottom-color: var(--border-dark);
-}
-
-html.dark .tracker-player {
-    border-right-color: var(--border-dark);
-}
-
-html.dark .tracker-player:last-of-type {
-    border-right: none;
-}
-
-/* =====================================================
-   RESPONSIVE
-   ===================================================== */
-
-@media (max-width: 700px) {
-    #menuScreen {
-        flex-direction: column;
-    }
-
-    .menu-left {
-        width: 100%;
-        min-height: 40vh;
-        padding: 40px 28px;
-        position: relative;
-        /* not sticky on mobile */
-    }
-
-    .logo-title {
-        font-size: 52px;
-    }
-
-    .die-large {
-        font-size: 60px;
-    }
-
-    .menu-right {
-        padding: 36px 24px 48px;
-    }
-
+@media (min-width: 1600px) {
     .menu-right-inner {
-        max-width: 100%;
-    }
-
-    .game-header {
-        padding: 14px 16px;
-    }
-
-    .round-tracker {
-        padding: 12px 16px;
+        max-width: 420px;
     }
 
     .players-area {
-        padding: 20px 16px;
-        gap: 12px;
+        max-width: 1600px;
+        margin-inline: auto;
+        width: 100%;
+    }
+
+    .player-card {
+        max-width: 320px;
+    }
+}
+
+@media (max-width: 1100px) {
+    .players-area {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    .player-card.p3 {
+        grid-column: span 2;
+        max-width: 100%;
+    }
+
+    .menu-left,
+    .menu-right,
+    .winner-left,
+    .winner-right {
+        padding: 40px 32px;
+    }
+
+    .logo-title {
+        font-size: clamp(48px, 6vw, 72px);
+    }
+
+    .game-header {
+        padding: 16px 24px;
+    }
+
+    .round-tracker {
+        padding: 12px 20px;
+    }
+}
+
+@media (max-width: 900px) {
+
+    #menuScreen,
+    .winner-layout {
+        flex-direction: column;
+    }
+
+    .menu-left,
+    .winner-left {
+        width: 100%;
+        min-height: 38vh;
+    }
+
+    .menu-right,
+    .winner-right {
+        width: 100%;
+    }
+
+    .players-area {
+        grid-template-columns: 1fr 1fr;
     }
 
     .player-card {
         max-width: 100%;
+    }
+
+    .player-card.p3 {
+        grid-column: auto;
+    }
+
+    .game-header {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .game-title-wrap {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 700px) {
+
+    #menuScreen,
+    #winnerScreen,
+    .winner-layout {
+        flex-direction: column;
+    }
+
+    .menu-left,
+    .winner-left {
+        width: 100%;
+        min-height: 34vh;
+        padding: 36px 24px;
+    }
+
+    .menu-right,
+    .winner-right {
+        width: 100%;
+        padding: 28px 20px 40px;
+    }
+
+    .menu-left-inner {
+        max-width: 100%;
+    }
+
+    .logo-title {
+        font-size: 48px;
+    }
+
+    .menu-left-desc {
+        max-width: 100%;
+    }
+
+    .die-large {
+        font-size: 54px;
+    }
+
+    .option-group {
+        grid-template-columns: 1fr;
+    }
+
+    .game-header {
+        padding: 14px 16px;
+        gap: 12px;
+    }
+
+    .game-title-wrap {
+        gap: 10px;
+        align-items: center;
+    }
+
+    .game-wordmark {
+        font-size: 20px;
+    }
+
+    .header-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .round-tracker {
+        justify-content: flex-start;
+        padding: 12px 10px;
+    }
+
+    .tracker-player {
+        padding: 0 14px;
+    }
+
+    .players-area {
+        display: flex;
+        flex-direction: column;
+        padding: 18px 14px;
+        gap: 14px;
+    }
+
+    .player-card {
+        width: 100%;
+        max-width: 100%;
         min-width: 0;
-        flex: 1 1 calc(50% - 6px);
+        padding: 24px 18px;
+    }
+
+    .player-card.is-turn {
+        transform: none;
     }
 
     .player-card.is-turn .turn-badge {
-        top: -10px;
-        right: 8px;
+        top: 10px;
         font-size: 8px;
-        padding: 3px 9px;
+        padding: 3px 10px;
+    }
+
+    .player-card.is-turn .player-label {
+        margin-top: 18px;
+    }
+
+    .dice-face {
+        width: 78px;
+        height: 78px;
+        padding: 8px;
+    }
+
+    .score-value {
+        font-size: 42px;
+    }
+
+    .player-name {
+        font-size: 22px;
+    }
+
+    .btn-roll {
+        width: 100%;
+        padding: 14px 18px;
+        font-size: 14px;
     }
 
     .roll-zone {
         padding: 16px 16px 28px;
     }
 
-    .btn-roll {
-        padding: 14px 32px;
-        width: 100%;
+    .overlay-card {
+        padding: 36px 20px;
     }
 
-    #winnerScreen {
-        flex-direction: column;
-    }
-
-    .winner-layout {
-        flex-direction: column;
-        min-height: 100vh;
-    }
-
-    .winner-left {
-        width: 100%;
-        min-height: 50vh;
+    .banner-name {
+        font-size: 36px;
     }
 
     .winner-right {
-        padding: 36px 24px 48px;
+        padding-top: 32px;
+    }
+
+    .results-table td:last-child {
+        font-size: 20px;
+    }
+
+    @keyframes turnEnter {
+        0% {
+            transform: translateY(6px) scale(0.97);
+            opacity: 0.5;
+        }
+
+        60% {
+            transform: translateY(-6px) scale(1.02);
+            opacity: 1;
+        }
+
+        100% {
+            transform: translateY(-4px) scale(1.01);
+            opacity: 1;
+        }
+    }
+
+    @keyframes activePulse {
+
+        0%,
+        100% {
+            transform: translateY(-4px) scale(1.01);
+        }
+
+        50% {
+            transform: translateY(-6px) scale(1.015);
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    html {
+        font-size: 14px;
+    }
+
+    .menu-left,
+    .winner-left {
+        padding: 30px 20px;
+    }
+
+    .menu-right,
+    .winner-right {
+        padding: 24px 16px 36px;
+    }
+
+    .logo-title {
+        font-size: 42px;
+    }
+
+    .eyebrow,
+    .winner-label,
+    .section-label {
+        letter-spacing: 2px;
+    }
+
+    .game-header {
+        padding: 12px;
+    }
+
+    .game-wordmark {
+        font-size: 18px;
+    }
+
+    .round-badge {
+        font-size: 11px;
+        padding: 4px 10px;
+    }
+
+    .tracker-player {
+        gap: 8px;
+        padding: 0 10px;
+    }
+
+    .tracker-name {
+        font-size: 10px;
+    }
+
+    .pip {
+        width: 10px;
+        height: 10px;
+    }
+
+    .players-area {
+        padding: 14px 10px;
+    }
+
+    .player-card {
+        padding: 20px 14px;
+        border-radius: 14px;
+    }
+
+    .dice-face {
+        width: 70px;
+        height: 70px;
+        gap: 3px;
+    }
+
+    .score-value {
+        font-size: 36px;
+    }
+
+    .player-name {
+        font-size: 20px;
+    }
+
+    .btn-roll {
+        padding: 13px 16px;
+    }
+
+    .overlay-card {
+        width: calc(100vw - 24px);
+    }
+
+    .winner-name {
+        font-size: 38px;
+    }
+
+    .results-table {
+        font-size: 14px;
+    }
+
+    .results-table td:last-child {
+        font-size: 18px;
+    }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+
+    #menuScreen,
+    .winner-layout {
+        flex-direction: row;
+    }
+
+    .menu-left,
+    .winner-left {
+        width: 40%;
+        min-height: 100vh;
+        padding: 24px;
+    }
+
+    .menu-right,
+    .winner-right {
+        width: 60%;
+        padding: 24px;
+        overflow-y: auto;
+    }
+
+    .players-area {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        padding: 12px;
+        gap: 12px;
+    }
+
+    .player-card {
+        padding: 16px 12px;
+    }
+
+    .dice-face {
+        width: 62px;
+        height: 62px;
+    }
+
+    .score-value {
+        font-size: 32px;
+    }
+
+    .roll-zone {
+        padding: 12px 16px;
     }
 }
