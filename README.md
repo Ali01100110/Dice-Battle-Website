@@ -38,7 +38,7 @@ To run this project locally on your machine, follow these simple steps:
 1. **Clone the repository:**
 
 ```bash
-git clone [https://github.com/Ali01100110/Dice-Battle-Website.git](https://github.com/Ali01100110/Dice-Battle-Website.git)
+git clone https://github.com/Ali01100110/Dice-Battle-Website.git
 
 ```
 
